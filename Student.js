@@ -1,91 +1,106 @@
-/**
- * Create a Student Class
- * The class should have the private fields:
- * - name, year, email, specialization
- * The class should have means to modify these fields
- * The class should have means to access these fields
- */
-class Student {
-  // Private Fields
-  #name               // String(fullname no space in between)
-  #year               // Number
-  #email              // String
-  #specialization     // String(must be written in camelCase)
+const readline = require('readline');
+const { Student } = require('./Student'); // make sure Student.js is correct
+const { StudentManagementSystem } = require('./StudentManagementSystem'); // your LinkedList logic
 
-  /**
-   * REQUIRES:  The fields specified above
-   * EFFECTS:   Creates a new Student instance
-   * RETURNS:   None
-   */
-  constructor(name, year, email, specialization) {
-    this.#name = name;
-    this.#year = year;
-    this.#email = email;
-    this.#specialization = specialization;
-  }
+// Create a new instance of StudentManagementSystem
+const studentManagementSystem = new StudentManagementSystem();
 
-  /**
-   * REQUIRES:  None
-   * EFFECTS:   None
-   * RETURNS:   The student name (String)
-   */
-  getName() {
-    return this.#name;
-  }
+// Set up readline interface
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  prompt: '>'
+});
 
-  /**
-   * REQUIRES:  None
-   * EFFECTS:   None
-   * RETURNS:   The student year (Number)
-   */
-  getYear() {
-    return this.#year;
-  }
+// Ask for input repeatedly
+rl.prompt();
+rl.on('line', async (input) => {
+  await handleCommand(input); // run the command logic
+  rl.prompt(); // ask again
+});
 
-  /**
-   * REQUIRES:  None
-   * EFFECTS:   None
-   * RETURNS:   The student email (String)
-   */
-  getEmail() {
-    return this.#email;
-  }
+// Your teacher's provided function (DO NOT CHANGE STRUCTURE OR COMMENTS)
+async function handleCommand(command) {
+  const [operation, ...args] = command.trim().split(' ');
 
-  /**
-   * REQUIRES:  None
-   * EFFECTS:   None
-   * RETURNS:   The student specialization (String)
-   */
-  getSpecialization() {
-    return this.#specialization; 
-  }
+  switch (operation) {
+    case 'add':
+      console.log('Adding student...');
+      const [name, year, email, specialization] = args;
+      // --------> WRITE YOUR CODE BELOW
+      const newStudent = new Student(name, Number(year), email, specialization);
+      studentManagementSystem.addStudent(newStudent);
+      console.log('Current students:', studentManagementSystem.displayStudents());
+      // --------> WRITE YOUR CODE ABOVE
+      break;
 
-  /**
-   * REQUIRES:  None
-   * EFFECTS:   None
-   * RETURNS:   Student object as string
-   */
-  getString() {
-    return `Name: ${this.#name}, Year: ${this.#year}, Email: ${this.#email}, Specialization: ${this.#specialization}`;
-  }
+    case 'remove':
+      console.log('Removing student...');
+      // --------> WRITE YOUR CODE BELOW
+      const removeEmail = args[0];
+      studentManagementSystem.removeStudent(removeEmail);
+      console.log('Current students:', studentManagementSystem.displayStudents());
+      // --------> WRITE YOUR CODE ABOVE
+      break;
 
-  /**
-   * REQUIRES:  The student's new email (String)
-   * EFFECTS:   Modifies the student's email to match
-   * RETURNS:   None
-   */
-  setEmail(newEmail) {
-    this.#email = newEmail;
-  }
+    case 'display':
+      console.log('Displaying students...');
+      // --------> WRITE YOUR CODE BELOW
+      const studentsList = studentManagementSystem.displayStudents();
+      if (studentsList) {
+        console.log(studentsList);
+      } else {
+        console.log('No students in the system.');
+      }
+      // --------> WRITE YOUR CODE ABOVE
+      break;
 
-  /**
-   * REQUIRES:  The student's new specialization (String)
-   * EFFECTS:   Modifies the student's specialization to match
-   * RETURNS:   The student specialization (String)
-   */
-  setSpecialization(newSpecialization) {
-    this.#specialization = newSpecialization;
+    case 'find':
+      console.log('Finding student...');
+      // --------> WRITE YOUR CODE BELOW
+      const findEmail = args[0];
+      const foundStudent = studentManagementSystem.findStudent(findEmail);
+      if (foundStudent !== -1) {
+        console.log(foundStudent.getString());
+      } else {
+        console.log('Student does not exist');
+      }
+      // --------> WRITE YOUR CODE ABOVE
+      break;
+
+    case 'save':
+      console.log('Saving data...');
+      // --------> WRITE YOUR CODE BELOW
+      const saveFileName = args[0];
+      await studentManagementSystem.saveToJson(saveFileName);
+      console.log(`Data saved to ${saveFileName}`);
+      // --------> WRITE YOUR CODE ABOVE
+      break;
+
+    case "load":
+      console.log('Loading data...');
+      // --------> WRITE YOUR CODE BELOW
+      const loadFileName = args[0];
+      await studentManagementSystem.loadFromJSON(loadFileName);
+      console.log('Current students:', studentManagementSystem.displayStudents());
+      // --------> WRITE YOUR CODE ABOVE
+      break;
+
+    case 'clear':
+      console.log('Clearing data...');
+      // --------> WRITE YOUR CODE BELOW
+      studentManagementSystem.#clearStudents(); // make sure this method exists as public
+      console.log('All students removed.');
+      // --------> WRITE YOUR CODE ABOVE
+      break;
+
+    case 'q':
+      console.log('Exiting...');
+      rl.close();
+      break;
+
+    default:
+      console.log('Unknown command. Type "help" for a list of commands.');
+      break;
   }
 }
-
-module.exports = { Student }
