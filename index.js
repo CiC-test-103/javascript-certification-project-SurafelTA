@@ -1,22 +1,20 @@
 const readline = require('readline');
-const { Student } = require('./Student'); // make sure Student.js is correct
+const { Student } = require('./Student');
 const { StudentManagementSystem } = require('./StudentManagementSystem'); // your LinkedList logic
 
-// Create a new instance of StudentManagementSystem
 const studentManagementSystem = new StudentManagementSystem();
 
-// Set up readline interface
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
   prompt: '>'
 });
 
-// Ask for input repeatedly
 rl.prompt();
+
 rl.on('line', async (input) => {
-  await handleCommand(input); // run the command logic
-  rl.prompt(); // ask again
+  await handleCommand(input);
+  rl.prompt();
 });
 
 // Your teacher's provided function (DO NOT CHANGE STRUCTURE OR COMMENTS)
@@ -77,7 +75,7 @@ async function handleCommand(command) {
       // --------> WRITE YOUR CODE ABOVE
       break;
 
-    case "load":
+    case 'load':
       console.log('Loading data...');
       // --------> WRITE YOUR CODE BELOW
       const loadFileName = args[0];
@@ -89,8 +87,8 @@ async function handleCommand(command) {
     case 'clear':
       console.log('Clearing data...');
       // --------> WRITE YOUR CODE BELOW
-      studentManagementSystem.clearStudents();
-      console.log('All students have been cleared.');
+      studentManagementSystem.clearStudents(); // fixed: now a public method
+      console.log('All students cleared.');
       // --------> WRITE YOUR CODE ABOVE
       break;
 
