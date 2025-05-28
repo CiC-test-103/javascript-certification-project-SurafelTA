@@ -158,22 +158,23 @@ class LinkedList {
  displayStudents() {
   // Start from the head of the list
   let current = this.head;
-  
-  // This array will hold student names as strings
+
+  // This array will hold each student's full string
   let students = [];
 
   // Loop through all nodes in the list
   while (current !== null) {
-    // Add the student's name to the array
-    students.push(current.data.getName());
-    
+    // Add the student's full string to the array using getString()
+    students.push(current.data.getString());
+
     // Move to the next node
     current = current.next;
   }
 
-  // Join all names with a comma and a space, then return as a string
-  return students.join(', ');
+  // Join all student strings with a line break and return the result
+  return students.join('\n');
 }
+
 
   /**
    * REQUIRES:  None
