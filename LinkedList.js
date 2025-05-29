@@ -148,6 +148,16 @@ class LinkedList {
 }
 
   /**
+   * REQUIRES: None
+   * EFFECTS:  Calls the private clearStudents method
+   * RETURNS:  None
+   * NOTE:     This public method allows clearing the student list externally
+   */
+  clearStudents() {
+    this.#clearStudents();
+}
+
+  /**
    * REQUIRES:  None
    * EFFECTS:   None
    * RETURNS:   LinkedList as a String for console.log in caller

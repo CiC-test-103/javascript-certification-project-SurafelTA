@@ -86,6 +86,15 @@ class Student {
   setSpecialization(newSpecialization) {
     this.#specialization = newSpecialization;
   }
+
+  /**
+   * REQUIRES: None
+   * EFFECTS: Returns a string representation of the student
+   * RETURNS: String
+   */
+  toString() {
+    return this.getString();
+  }
 }
 
 module.exports = { Student }
