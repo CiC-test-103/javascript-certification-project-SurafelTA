@@ -169,20 +169,20 @@ class LinkedList {
   // Start from the head of the list
   let current = this.head;
 
-  // This array will hold each student's full string
+  // This array will hold each student's name
   let students = [];
 
   // Loop through all nodes in the list
   while (current !== null) {
-    // Add the student's full string to the array using getString()
-    students.push(current.data.getString());
+    // Add the student's name to the array using getName()
+    students.push(current.data.getName());
 
     // Move to the next node
     current = current.next;
   }
 
-  // Join all student strings with a line break and return the result
-  return students.join('\n');
+  // Join all student names with a comma and return the result
+  return students.join(', ');
 }
 
 
